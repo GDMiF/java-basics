@@ -17,11 +17,6 @@ public class MiniRPG2 {
 
         char actionButton;
 
-        attack = random.nextInt(10,26);
-        defence = random.nextInt(10,26);
-        heal =random.nextInt(0,40);
-
-
         System.out.print("Enter the player name: ");
         name = scanner.nextLine();
         System.out.println("Welcome " + name + " you have " + hp + " hp");
@@ -38,6 +33,10 @@ public class MiniRPG2 {
         System.out.println("Press H to Heal: ❤\uFE0F ");
 
         do{
+            attack = random.nextInt(10,26);
+            defence = random.nextInt(10,26);
+            heal =random.nextInt(0,40);
+
             actionButton = Character.toUpperCase(scanner.next().charAt(0));
             if(actionButton == 'H'){
                 hp = hp + heal;
@@ -65,6 +64,8 @@ public class MiniRPG2 {
             System.out.println("You died Morgott wins!");
         } else if(enemyHp == 0){
             System.out.println("VICTRY");
+        } else{
+            System.out.println("Tie");
         }
 
         scanner.close();
