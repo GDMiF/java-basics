@@ -12,13 +12,16 @@ public class MiniRPG {
         int hp = 100;
         System.out.println("Your name is " + name + " you have " + hp + "hp");
 
-        if(hp <= 0 ){
-            System.out.println("Player is Dead");
-        } else {
+        do{
             int damage1 = random.nextInt(10, 26);
-            hp =hp - damage1;
-            System.out.println("You got attacked and hit by " + damage1 + " now you have " + hp + " hp");
-        }
+            hp -= damage1;
+            if(hp <= 0){
+                hp = 0;
+            }
+            System.out.println("You got attacked and hit for " + damage1 + " now you have " + hp + " hp");
+        } while(hp > 0);
+
+        System.out.println("you died");
 
         scanner.close();
     }
