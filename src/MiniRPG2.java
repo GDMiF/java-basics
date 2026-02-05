@@ -65,7 +65,10 @@ public class MiniRPG2 {
         } else if(enemyHp == 0){
             System.out.println("VICTRY");
         } else{
-            System.out.println("Tie");
+            System.out.println("Tie! you both got second chance");
+            hp = 50;
+            enemyHp = 50;
+            System.out.println("Your hp is " + hp + " Morgott hp is " + hp);
         }
 
         scanner.close();
