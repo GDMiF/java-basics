@@ -10,8 +10,7 @@ public class MiniRPG3 {
         int hp = 100;
         int enemyHp = 100;
         int enemy = random.nextInt(1,5);
-        boolean isRunning = true;
-        int element = 0;
+        int element;
         char option = ' ';
         String enemy1 = "Rennala, Queen of the Full Moon";
         String enemy2 = "Godrick the Grafted";

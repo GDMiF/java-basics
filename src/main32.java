@@ -7,7 +7,7 @@ public class main32 {
         String[] foods;
         int size;
 
-        System.out.println("What # of food do you want: ");
+        System.out.print("What # of food do you want?: ");
         size = scanner.nextInt();
         scanner.nextLine();
 
