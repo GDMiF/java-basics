@@ -5,17 +5,15 @@ public class MiniCasino {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Random random = new Random();
 
         String choseOption;
         double balance = 1000;
         boolean isRunning = true;
-        boolean isPlaying = true;
-        double newBalance;
-        double bet;
         double coefficient;
         int numberAttemps;
         boolean gameOn = true;
+        int playerChose = 0;
+        String [] row;
 
         System.out.println("**********************");
         System.out.println("Welcome To Casino 🍒💸");
@@ -46,10 +44,22 @@ public class MiniCasino {
 
 
                     switch (choseOption) {
-                        case "S" -> System.out.println("Slots");
+                        case "S" -> {
+                            System.out.println("**************************");
+                            System.out.println("Welcome to the Slot Game🎰");
+                            System.out.println("**************************");
+                            System.out.println("Current balance: " + balance);
+                            System.out.println("Symbols: 🍓 🍒 🍉 🍋 🍀");
+                            System.out.println("Spinning...");
+                            spinRow(balance);
+                            row = spinRow(balance);
+                            printRow(row);
+                        }
                         case "N" -> {
                             do {
+                                System.out.println("*********************************");
                                 System.out.println("Welcome to Number Guessing game🎱");
+                                System.out.println("*********************************");
                                 System.out.println("Current balance: " + balance);
 
                                 System.out.println("1: 7 attempts - x1.5");
@@ -78,43 +88,47 @@ public class MiniCasino {
                                         scanner.nextLine();
                                     }
                                 }
-                            gameOn = playGameAgain();
+                                gameOn = playGameAgain();
                             } while(gameOn);
                         }
                         case "D" -> {
-                            System.out.println("Welcome to the Dice Game🎲");
-                            System.out.println("Current balance: " + balance);
-                            System.out.println("Your rolling 2 dice: Guess the Number:");
-                            System.out.println("1) Big 8 - 12 - x2");
-                            System.out.println("2) Small 2 - 6 - x2");
-                            System.out.println("3) Exact number - x5");
-                            System.out.print("Chose your option");
-                            choseOption = scanner.nextLine();
+                           do {
+                               System.out.println("**************************");
+                               System.out.println("Welcome to the Dice Game🎲");
+                               System.out.println("**************************");
+                               System.out.println("Current balance: " + balance);
+                               System.out.println("Your rolling 2 dice: Guess the Number:");
+                               System.out.println("1) Big 8 - 12 - x2");
+                               System.out.println("2) Small 2 - 6 - x2");
+                               System.out.println("3) Exact number - x5");
+                               System.out.print("Chose your option: ");
+                               choseOption = scanner.nextLine();
 
-                            switch(choseOption){
-                                case "1" -> {
-                                    for(int i = 0; i < 2; i++){
-                                        playDiceGame();
-                                    }
-                                }
-                                case "2" -> System.out.println("2");
-                                case "3" -> System.out.println("3");
-                            }
+                               switch (choseOption) {
+                                   case "1" -> {
+                                       playerChose = 1;
+                                       balance = diceResult(playerChose, balance);
+                                       scanner.nextLine();
 
+                                   }
+                                   case "2" -> {
+                                       playerChose = 2;
+                                       balance = diceResult(playerChose, balance);
+                                       scanner.nextLine();
 
-
-
-
-
-
-
-
+                                   }
+                                   case "3" -> {
+                                       playerChose = 3;
+                                       balance = diceResult(playerChose, balance);
+                                       scanner.nextLine();
+                                   }
+                               }
+                               gameOn = playGameAgain();
+                           }while(gameOn);
                         }
                         default -> System.out.println("Chose the valid option!");
                     }
                 }
-
-
                 case "2" -> {
                     balance += depositBalance();
                     scanner.nextLine();
@@ -123,12 +137,8 @@ public class MiniCasino {
                     balance -= withdrawBalance(balance);
                     scanner.nextLine();
                 }
-                case "4" -> {
-                    isRunning = false;
-                }
-                default -> {
-                    System.out.println("Chose the valid option!");
-                }
+                case "4" -> isRunning = false;
+                default -> System.out.println("Chose the valid option!");
             }
         } while (isRunning);
 
@@ -190,7 +200,6 @@ public class MiniCasino {
 
         Random random = new Random();
 
-        String numberChose;
         boolean gameOn = true;
         int myGuess;
         int attempts = 0;
@@ -223,6 +232,7 @@ public class MiniCasino {
                 if (attempts >= numberAttempts) {
                     System.out.println("You Lose");
                     balance -= bet;
+                    System.out.printf("Your balance is %,.2f$\n", balance);
                     gameOn = false;
                 }
             }
@@ -236,14 +246,7 @@ public class MiniCasino {
         return answer.equals("Y");
     }
 
-    static double playDiceGame(){
-
-        Random random = new Random();
-
-        int roll = random.nextInt(1,7);
-
-        System.out.println("Your rolled " + roll);
-
+    static void playDiceGame(int roll){
         String dice1 = """
                 -------
                |       |
@@ -294,9 +297,101 @@ public class MiniCasino {
             case 4 -> System.out.println(dice4);
             case 5 -> System.out.println(dice5);
             case 6 -> System.out.println(dice6);
-            default -> System.out.println("Incalid roll");
+            default -> System.out.println("Invalid roll");
         }
-        return roll;
     }
+
+    static double diceResult(int playerChose, double balance) {
+
+        Random random = new Random();
+        boolean gameOn = true;
+        double bet = betMoney(balance);
+        int total = 0;
+        int playerGuess = 0;
+
+    while(gameOn) {
+
+        if (playerChose == 3) {
+            System.out.print("Guess exact number (2 - 12): ");
+            playerGuess = scanner.nextInt();
+
+            if (playerGuess < 2 || playerGuess > 12) {
+                System.out.println("Invalid number! You lose.");
+                return balance - bet;
+            }
+        }
+
+
+        for (int i = 0; i < 2; i++) {
+            int roll = random.nextInt(1, 7);
+            playDiceGame(roll);
+            System.out.println("You rolled: " + roll);
+            total += roll;
+        }
+        System.out.println("Total: " + total);
+
+
+        if (playerChose == 1 && total >= 8) {
+            System.out.println("You Won!");
+            balance += bet * 2;
+            System.out.printf("Your balance is %,.2f$\n", balance);
+            gameOn = false;
+        } else if (playerChose == 2 && total <= 6) {
+            System.out.println("You Won!");
+            balance += bet * 2;
+            System.out.printf("Your balance is %,.2f$\n", balance);
+            gameOn = false;
+        } else if (playerChose == 3 && total == playerGuess) {
+            System.out.println("You Won!");
+            balance += bet * 5;
+            System.out.printf("Your balance is %,.2f$\n", balance);
+
+            gameOn = false;
+        } else {
+            System.out.println("You Lose!");
+            balance -= bet;
+            System.out.printf("Your balance is %,.2f$\n", balance);
+            gameOn = false;
+        }
+
+    }
+        return balance;
+    }
+
+
+
+
+
+    static String[] spinRow(double balance){
+
+        String [] symbols = {"🍓", "🍒", "🍉", "🍋", "🍀"};
+        String [] row = new String[3];
+        String result;
+        double bet = betMoney(balance);
+        Random random = new Random();
+
+        for(int i = 0; i < 3; i++){
+            row[i] = symbols[random.nextInt(symbols.length)];
+        }
+
+        if(row[0].equals(row[1]) && row[1].equals(row[2]) ){
+            System.out.println("You Won");
+            balance += bet*2;
+
+        } else {
+            System.out.println("You Lose");
+            balance -= bet;
+        }
+
+
+        return row;
+    }
+
+    static void printRow(String[] row){
+        System.out.println("**************");
+        System.out.println(" " + String.join(" | ", row));
+        System.out.println("**************");
+    }
+
 
 }
