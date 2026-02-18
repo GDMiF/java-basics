@@ -1,4 +1,7 @@
-package PACKAGE_NAME;
+public class Animal extends Organism{
 
-public class Animal {
+    void eat(){
+        System.out.println("The animal is eating");
+    }
+
 }

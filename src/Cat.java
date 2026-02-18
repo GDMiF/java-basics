@@ -1,4 +1,8 @@
-package PACKAGE_NAME;
+public class Cat extends  Animal{
 
-public class Cat {
+    int lives = 9;
+
+    void speak(){
+        System.out.println("The cats goes Miau");
+    }
 }

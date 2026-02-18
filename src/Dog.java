@@ -1,4 +1,8 @@
-package PACKAGE_NAME;
+public class Dog  extends Animal{
 
-public class Dog {
+    int lives = 1;
+
+    void speak(){
+        System.out.println("The dog goes Wuf");
+    }
 }

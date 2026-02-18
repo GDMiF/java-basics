@@ -1,4 +1,6 @@
-package PACKAGE_NAME;
+public class Plant extends Organism{
 
-public class Plant {
+    void photosynthesize(){
+        System.out.println("The pant absords sunlight");
+    }
 }
